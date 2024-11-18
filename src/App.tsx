@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
+import axios from 'axios';
 
 // Hi guys! Let`s reinforce our session:
 
@@ -37,32 +38,35 @@ type PropsType = {
 };
 
 function App() {
-  const [todos, setTodos] = useState<Array<PropsType>>([]);
+  const [todos, setTodos] = useState<PropsType[]>([]);
 
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/todos')
-      .then(response => response.json())
-      .then(json => setTodos(json));
+    // fetch('https://jsonplaceholder.typicode.com/todos')
+    //   .then(response => response.json())
+    //   .then(json => setTodos(json));
+    axios.get('https://jsonplaceholder.typicode.com/todos').then(res => {
+      setTodos(res.data);
+    });
   }, []);
 
   const onClickHandler = () => {
     setTodos([]);
   };
 
+  const mapTodos: JSX.Element[] = todos.map(el => {
+    return (
+      <li>
+        <span>{el.id} - </span>
+        <span>{el.title}</span>
+        <span>{el.completed}</span>
+      </li>
+    );
+  });
+
   return (
     <div className=''>
       <button onClick={onClickHandler}>CLEAN POSTS</button>
-      <ul>
-        {todos.map(el => {
-          return (
-            <li>
-              <span>{el.id} - </span>
-              <span>{el.title}</span>
-              <span>{el.completed}</span>
-            </li>
-          );
-        })}
-      </ul>
+      <ul>{mapTodos}</ul>
     </div>
   );
 }
