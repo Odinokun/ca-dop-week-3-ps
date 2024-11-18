@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import axios from 'axios';
+import { Button } from './components/Button';
 
 // 3. Create new button to redisplay  our data
 
@@ -17,15 +18,18 @@ type PropsType = {
 function App() {
   const [todos, setTodos] = useState<PropsType[]>([]);
 
-  useEffect(() => {
+  const getPosts = () => {
     axios.get('https://jsonplaceholder.typicode.com/todos').then(res => {
       setTodos(res.data);
     });
+  };
+
+  useEffect(() => {
+    getPosts();
   }, []);
 
-  const onClickHandler = () => {
-    setTodos([]);
-  };
+  const removePosts = () => setTodos([]);
+  const showPosts = () => getPosts();
 
   const mapTodos: JSX.Element[] = todos.map(el => {
     return (
@@ -38,8 +42,11 @@ function App() {
   });
 
   return (
-    <div className=''>
-      <button onClick={onClickHandler}>CLEAN POSTS</button>
+    <div>
+      <div>
+        <Button name='SHOW POSTS' onClick={showPosts} />
+        <Button name='CLEAN POSTS' onClick={removePosts} />
+      </div>
       <ul>{mapTodos}</ul>
     </div>
   );
