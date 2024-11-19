@@ -17,6 +17,16 @@ function App() {
     axios.get('https://jsonplaceholder.typicode.com/todos').then(res => {
       setTodos(res.data);
     });
+    //************************************************************** */
+    //************************************************************** */
+    //************************************************************** */
+    console.log(
+      '%cWelcome text!!!',
+      'color: goldenrod; font-size: 20px; font-family: cursive;'
+    );
+    //************************************************************** */
+    //************************************************************** */
+    //************************************************************** */
   };
 
   useEffect(() => {
@@ -28,7 +38,7 @@ function App() {
 
   const mapTodos: JSX.Element[] = todos.map(el => {
     return (
-      <li>
+      <li key={el.id}>
         <span>{el.id} - </span>
         <span>{el.title}</span>
         <span>{el.completed}</span>
